@@ -1,0 +1,64 @@
+services:
+  apiserver:
+    image: dependencytrack/apiserver
+    depends_on:
+      postgres:
+        condition: service_healthy
+     Optional LDAP Properties
+       ALPINE_LDAP_BIND_USERNAME: "service-account"
+       ALPINE_LDAP_BIND_PASSWORD: "Z#CaLoJJKFWn3FNK13ZhE1Q@U"
+       ALPINE_LDAP_AUTH_USERNAME_FORMAT: "%s@example.com"
+       ALPINE_LDAP_ATTRIBUTE_NAME: "userPrincipalName"
+       ALPINE_LDAP_ATTRIBUTE_MAIL: "mail"
+       ALPINE_LDAP_GROUPS_FILTER: "(&(objectClass=group)(objectCategory=Group))"
+       ALPINE_LDAP_USER_GROUPS_FILTER: "(member:1.2.840.113556.1.4.1941:={USER_DN})"
+       ALPINE_LDAP_GROUPS_SEARCH_FILTER: "(&(objectClass=group)(objectCategory=Group)(cn=*{SEARCH_TERM}*))"
+       ALPINE_LDAP_USERS_SEARCH_FILTER: "(&(objectClass=user)(objectCategory=Person)(cn=*{SEARCH_TERM}*))"
+       ALPINE_LDAP_USER_PROVISIONING: "false"
+       ALPINE_LDAP_TEAM_SYNCHRONIZATION: "false"
+
+     Optional OpenID Connect (OIDC) Properties
+       ALPINE_OIDC_ENABLED: "true"
+       ALPINE_OIDC_ISSUER: "https://auth.example.com/auth/realms/example"
+       ALPINE_OIDC_CLIENT_ID: "Iv23liKLk9wAwn5jWap4"
+       ALPINE_OIDC_USERNAME_CLAIM: "preferred_username"
+       ALPINE_OIDC_TEAMS_CLAIM: "groups"
+       ALPINE_OIDC_USER_PROVISIONING: "true"
+       ALPINE_OIDC_TEAM_SYNCHRONIZATION: "true"
+    deploy:
+      resources:
+        limits:
+          memory: 12288m
+        reservations:
+          memory: 8192m
+      restart_policy:
+        condition: on-failure
+    ports:
+    - '8081:8080'
+    volumes:
+    - 'dtrack-data:/data'
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -t 1 -T 3 --no-proxy -q -O /dev/null http://127.0.0.1:8080$${CONTEXT}health || exit 1" ]
+      interval: 30s
+      start_period: 60s
+      timeout: 3s
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: "dtrack"
+      POSTGRES_USER: "dtrack"
+      POSTGRES_PASSWORD: "dtrack"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    volumes:
+    - "postgres-data:/var/lib/postgresql/data"
+    restart: unless-stopped
+
+volumes:
+  dtrack-data: {}
+  postgres-data: {}

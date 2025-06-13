@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+repositories {
+    maven {
+        url "https://artifactory.example.com/repo"
+        credentials {
+            username = 'proxy-repo'
+            password = 'oHcNw~8AwcRI6?9'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.example:internal-lib:1.2.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    testImplementation 'junit:junit:4.13.2'
+}

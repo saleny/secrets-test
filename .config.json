@@ -1,0 +1,13 @@
+{
+  "auths": {
+    "https://registry.gitlab.com": {
+      "auth": "dXNlcm5hbWU6cGFzc3dvcmQ="
+    },
+    "ghcr.io": {
+      "auth": "Z2l0aHViX3VzZXI6Z2hwX3Rva2Vu"
+    },
+    "my.private.registry:5000": {
+      "auth": "cHJpdmF0ZV91c2VyOnNlY3JldFBhc3N3ZA=="
+    }
+  },
+}
