@@ -3,5 +3,18 @@ kind: ConfigMap
 metadata:
   name: myconfigmap
 data:
-  username: k8s-admin
-  password: "secret-password"
+  PASSWORD: "secret-password"
+  HOST: "wallet.example.com"
+  MAIL_PORT: "25"
+  MAIL_PROTOCOL: "smtp"
+  SECOND_HOST: "cards.example.com"
+  EXPRESS_TOKEN: "SFMyBTY.5Ys10QPfcvmYQFksAwzvftq6J07zrDbP08EemVr6C6XcicYnXyJuZDWp5beiBNy88jGDIU3xlRUsspxq5VO8hV1.bQYy86vw61c8kOFpteCFE7zsj7P-0jzS7Fbdkin03qf"
+  KAITEN_TOKEN: "296a5709-99bc-49a7-96e0-c0a1b236091f"
+  APPMETRICA__POLL_INTERVAL: "3"
+  APPMETRICA__READY_TIMEOUT: "30"
+  APPMETRICA__APPLICATION_ID: "1"
+  APPMETRICA__API: "wyk2D1JbJ4RwQ9WxKTcMw4L0ylNA7ctG"
+  REDIS_USERNAME: "dvora"
+  REDIS_PASSWORD: "redis-password"
+  GIGACHAT_AUTHZ_KEY: "NjY4NDk5NmEtZGI2ZS00OTQ1LTkzMGQtMzk4YTc1MmJhY2RkOjczOTk5MGViLTMwZWEtNDE0ZS04Y2VlLTUwYWQ0ZWMxZmVhYw=="
+  LDAP_PASSWORD: "Gu|OIiuqqV*xq|IWADP6~H3h#BGdl5"

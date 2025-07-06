@@ -1,0 +1,22 @@
+stages:
+  - lint
+  - build
+  - security
+  - test
+  - send_jira
+
+send_results_jira:
+  stage: send_jira
+  image: my_jira_image:1.01
+  variables:
+    TOKEN: 'NTQxMzE3NDYxNTY2OoMsA8fmDduQa4XQwQUG1LsfyD9e'
+  script:
+    ./send_results.sh
+
+tests:
+  stage: test
+  image: my_test_image:0.1
+  variables:
+    TOKEN: 'e5d021e9-9210-6ha7-b5c5-5015fa1fc7ca'
+  script: gradle test
+

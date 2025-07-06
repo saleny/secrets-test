@@ -14,7 +14,17 @@ repositories {
             password = 'oHcNw~8AwcRI6?9'
         }
     }
+
+    maven {
+        url "https://artifactory-int.example.com/repo"
+        credentials {
+            username = 'devuser'
+            password = 'oHcNw~XVcZ@m-^274r?9'
+        }
+    }
 }
+
+
 
 dependencies {
     implementation 'com.example:internal-lib:1.2.0'

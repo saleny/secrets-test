@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: internal-application
+  namespace: default
+spec:
+  tls:
+    - hosts:
+        - internal-application.ext.example.com
+      secretName: ext.example.com
+  rules:
+    - host: internal-application.ext.example.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: internal-notifications
+                port:
+                  number: 80

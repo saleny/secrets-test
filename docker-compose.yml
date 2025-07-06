@@ -1,6 +1,6 @@
 services:
   apiserver:
-    image: dependencytrack/apiserver
+    image: apiserver:latest
     depends_on:
       postgres:
         condition: service_healthy
@@ -16,15 +16,9 @@ services:
        ALPINE_LDAP_USERS_SEARCH_FILTER: "(&(objectClass=user)(objectCategory=Person)(cn=*{SEARCH_TERM}*))"
        ALPINE_LDAP_USER_PROVISIONING: "false"
        ALPINE_LDAP_TEAM_SYNCHRONIZATION: "false"
-
-     Optional OpenID Connect (OIDC) Properties
-       ALPINE_OIDC_ENABLED: "true"
        ALPINE_OIDC_ISSUER: "https://auth.example.com/auth/realms/example"
-       ALPINE_OIDC_CLIENT_ID: "Iv23liKLk9wAwn5jWap4"
-       ALPINE_OIDC_USERNAME_CLAIM: "preferred_username"
-       ALPINE_OIDC_TEAMS_CLAIM: "groups"
-       ALPINE_OIDC_USER_PROVISIONING: "true"
-       ALPINE_OIDC_TEAM_SYNCHRONIZATION: "true"
+       OAUTH_SECRET_KEY: "b7fd455c-cee5-415c-8f58-8ec572af4976"
+       OAUTH_KEY_ID: "246d619d-1801-4aa3-aa9c-5474158ca067"
     deploy:
       resources:
         limits:
@@ -35,13 +29,6 @@ services:
         condition: on-failure
     ports:
     - '8081:8080'
-    volumes:
-    - 'dtrack-data:/data'
-    healthcheck:
-      test: [ "CMD-SHELL", "wget -t 1 -T 3 --no-proxy -q -O /dev/null http://127.0.0.1:8080$${CONTEXT}health || exit 1" ]
-      interval: 30s
-      start_period: 60s
-      timeout: 3s
     restart: unless-stopped
 
   postgres:
